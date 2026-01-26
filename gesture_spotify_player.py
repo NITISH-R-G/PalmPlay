@@ -36,12 +36,12 @@ try:
 except Exception:
     pygame = None
 
-    # spotipy is optional (we currently run local-only). If you later add it, the code will try to use it.
-    try:
-        import spotipy
-        from spotipy.oauth2 import SpotifyOAuth
-    except Exception:
-        spotipy = None
+# spotipy is optional.
+try:
+    import spotipy
+    from spotipy.oauth2 import SpotifyOAuth
+except Exception:
+    spotipy = None
 
 try:
     # pycaw is optional and Windows-only. Use to set system volume if desired.

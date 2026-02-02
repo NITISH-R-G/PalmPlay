@@ -2,10 +2,13 @@
 Gesture-controlled music player using OpenCV + MediaPipe + Spotipy.
 
 Controls (default mapping):
-- Fist (no fingers) -> toggle play/pause
-- Swipe right -> next track
-- Swipe left -> previous track
-- Two fingers up -> volume control by vertical position (higher = louder)
+- Fist (no fingers) -> Pause
+- Open Hand (Center) -> Play
+- Open Hand (Right edge) -> Next Track
+- Open Hand (Left edge) -> Previous Track
+- Pinch (Thumb + Index) -> Volume Control
+- 2 Fingers Up -> Toggle Shuffle
+- 3 Fingers Up -> Toggle Repeat
 
 Requirements: opencv-python, mediapipe, spotipy, pycaw (optional for system volume), pygame
 
@@ -20,6 +23,7 @@ python gesture_spotify_player.py
 import os
 import time
 import argparse
+import traceback
 from collections import deque
 from dotenv import load_dotenv
 
@@ -29,6 +33,7 @@ load_dotenv()
 import cv2
 import numpy as np
 import math
+import ctypes
 import tkinter as tk
 from tkinter import filedialog
 
@@ -123,7 +128,7 @@ class HandDetector:
                     
                     # Draw points
                     for p in lm:
-                        cv2.circle(frame, (int(p[0]*w), int(p[1]*h)), 5, (255, 0, 255), cv2.FILLED)
+                        cv2.circle(frame, (int(p[0]*w), int(p[1]*h)), 5, (0, 255, 0), cv2.FILLED)
                     
                     # Draw connections (manual definition since mp.solutions.hands might be missing)
                     connections = [
@@ -137,7 +142,7 @@ class HandDetector:
                     for p1_idx, p2_idx in connections:
                         x1, y1 = int(lm[p1_idx][0]*w), int(lm[p1_idx][1]*h)
                         x2, y2 = int(lm[p2_idx][0]*w), int(lm[p2_idx][1]*h)
-                        cv2.line(frame, (x1, y1), (x2, y2), (255, 255, 255), 2)
+                        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                         
         return frame, hands_data
 
@@ -151,32 +156,29 @@ class GestureRecognizer:
     and cooldowns to avoid repeated triggers. Tweak parameters below for sensitivity.
     """
 
-    def __init__(self, buffer_len=6, swipe_vpx=450.0, cooldown=0.9):
-        # center buffer stores tuples (x, y, t)
+    def __init__(self, buffer_len=10, swipe_vpx=500.0, cooldown=0.5):
+        # High-precision buffer and responsive cooldown
         self.center_buf = deque(maxlen=buffer_len)
         self.finger_buf = deque(maxlen=buffer_len)
         self.last_trigger = {}
-        self.swipe_vpx = swipe_vpx  # pixels per second threshold
+        self.swipe_vpx = swipe_vpx 
         self.cooldown = cooldown
+        self.smoothed_vol = 50 
 
     def fingers_up(self, lm):
-        # lm: list of (x,y,z) normalized
-        # Simple heuristic per finger (index->pinky): tip y < pip y => finger up
+        """Count fingers that are extended."""
+        # Index, Middle, Ring, Pinky
         tips = [8, 12, 16, 20]
         count = 0
         for tip in tips:
-            try:
-                if lm[tip][1] < lm[tip - 2][1]:
-                    count += 1
-            except Exception:
-                pass
-        # thumb: check if thumb tip is away from palm center horizontally
-        try:
-            # approximate palm center as wrist (0)
-            if abs(lm[4][0] - lm[0][0]) > 0.06:
+            # tip y < pip y
+            if lm[tip][1] < lm[tip - 2][1]:
                 count += 1
-        except Exception:
-            pass
+        
+        # Thumb: check horizontal distance from wrist/palm
+        # If thumb tip is significantly far from index base
+        if abs(lm[4][0] - lm[5][0]) > 0.05:
+            count += 1
         return count
 
     def smooth_count(self, cnt):
@@ -187,18 +189,12 @@ class GestureRecognizer:
         # center is (x_px, y_px)
         self.center_buf.append((center[0], center[1], time.time()))
 
-    def detect_swipe(self):
-        if len(self.center_buf) < 3:
-            return None
-        x0, y0, t0 = self.center_buf[0]
-        x1, y1, t1 = self.center_buf[-1]
-        dt = max(1e-3, t1 - t0)
-        vx = (x1 - x0) / dt
-        # require significant horizontal velocity and not too much vertical drift
-        vy = (y1 - y0) / dt
-        # tuned: require horizontal speed > threshold and vertical drift smaller than half horizontal
-        if abs(vx) > self.swipe_vpx and abs(vy) < abs(vx) * 0.5:
-            return 'right' if vx > 0 else 'left'
+    def detect_swipe(self, lm):
+        """Pro-style: Use horizontal position for side-based skipping."""
+        # Index finger base (landmark 5) is a stable horizontal reference
+        x = lm[5][0]
+        if x > 0.8: return 'right'
+        if x < 0.2: return 'left'
         return None
 
     def cooldown_ok(self, action):
@@ -211,57 +207,49 @@ class GestureRecognizer:
 
     def recognize(self, hand):
         if not hand:
-            # no hand detected
             return None, None
         lm = hand['lm']
         center = hand['center']
         self.add_center(center)
-        raw_cnt = self.fingers_up(lm)
-        cnt = self.smooth_count(raw_cnt)
-
-        # Check specific finger states
-        thumb_up = lm[4][1] < lm[3][1]  # Thumb tip above thumb IP
+        
+        # Check finger states
+        # tip y < pip y
         idx_up = lm[8][1] < lm[6][1]
         mid_up = lm[12][1] < lm[10][1]
         ring_up = lm[16][1] < lm[14][1]
         pinky_up = lm[20][1] < lm[18][1]
+        up_count = sum([idx_up, mid_up, ring_up, pinky_up])
 
-        # Open Palm (5 fingers) -> Shuffle
-        if cnt >= 5 and idx_up and mid_up and ring_up and pinky_up and thumb_up:
-            return 'open_palm', None
+        # 1. PINCH VOLUME (Thumb + Index only)
+        if idx_up and not mid_up and not ring_up and not pinky_up:
+            thumb = lm[4]
+            index = lm[8]
+            dist = math.sqrt((thumb[0]-index[0])**2 + (thumb[1]-index[1])**2)
+            target_vol = (dist - 0.03) / (0.18 - 0.03) * 100
+            target_vol = max(0, min(100, int(target_vol)))
+            if target_vol <= 3: self.smoothed_vol = 0
+            elif target_vol >= 97: self.smoothed_vol = 100
+            else: self.smoothed_vol = int(0.7 * self.smoothed_vol + 0.3 * target_vol)
+            return 'volume', self.smoothed_vol
 
-        # Thumb Up (only thumb extended) -> Repeat
-        if thumb_up and not idx_up and not mid_up and not ring_up and not pinky_up:
-            # Verify thumb is clearly up (above wrist level)
-            if lm[4][1] < lm[0][1] - 0.1:
-                return 'thumb_up', None
+        # 2. SHUFFLE (2 fingers up)
+        if idx_up and mid_up and not ring_up and not pinky_up:
+            return 'shuffle', None
 
-        # Two-finger volume gesture: index + middle up, ring & pinky down
-        if cnt >= 2:
-            if idx_up and mid_up and not ring_up and not pinky_up:
-                # volume by average vertical position of index and middle tips
-                vol_norm = 1.0 - np.mean([lm[8][1], lm[12][1]])
-                vol = int(np.clip(vol_norm * 100, 0, 100))
-                return 'volume', vol
+        # 3. REPEAT (3 fingers up)
+        if idx_up and mid_up and ring_up and not pinky_up:
+            return 'repeat', None
 
-        # Fist detection: all finger tips are near the wrist or folded (tips below pip)
-        tips = [4, 8, 12, 16, 20]
-        folded = 0
-        for tip in tips:
-            try:
-                if lm[tip][1] > lm[tip - 2][1]:
-                    folded += 1
-            except Exception:
-                pass
-        if folded >= 4:
-            return 'fist', None
+        # 4. FIST -> Pause
+        if up_count == 0:
+            return 'pause', None
 
-        # Swipe detection
-        swipe = self.detect_swipe()
-        if swipe == 'right':
-            return 'swipe_right', None
-        elif swipe == 'left':
-            return 'swipe_left', None
+        # 5. OPEN HAND (Palm) -> Play or Skip
+        if up_count >= 3:
+            swipe_side = self.detect_swipe(lm)
+            if swipe_side == 'right': return 'next', None
+            if swipe_side == 'left': return 'prev', None
+            return 'play', None
 
         return None, None
 
@@ -291,17 +279,20 @@ class SpotifyController:
         except Exception:
             return False
 
-    def toggle_play_pause(self):
+    def play(self):
         try:
-            cur = self.sp.current_playback()
-            if cur and cur.get('is_playing'):
-                self.sp.pause_playback()
-            else:
-                # start playback on user's active device
-                self.sp.start_playback()
+            self.sp.start_playback()
             return True
         except Exception as e:
-            print('Spotify play/pause error:', e)
+            print('Spotify play error:', e)
+            return False
+
+    def pause(self):
+        try:
+            self.sp.pause_playback()
+            return True
+        except Exception as e:
+            print('Spotify pause error:', e)
             return False
 
     def next(self):
@@ -320,6 +311,17 @@ class SpotifyController:
             print('Spotify prev error:', e)
             return False
 
+    def get_state(self):
+        try:
+            cur = self.sp.current_playback()
+            if cur:
+                return {
+                    'shuffle': cur.get('shuffle_state', False),
+                    'repeat': cur.get('repeat_state', 'off') != 'off'
+                }
+        except: pass
+        return {'shuffle': False, 'repeat': False}
+
     def set_volume(self, vol_percent):
         try:
             self.sp.volume(vol_percent)
@@ -327,6 +329,31 @@ class SpotifyController:
         except Exception as e:
             print('Spotify set volume error:', e)
             return False
+
+    def toggle_shuffle(self):
+        try:
+            cur = self.sp.current_playback()
+            if cur:
+                state = not cur['shuffle_state']
+                self.sp.shuffle(state)
+                return state
+        except Exception as e:
+            print('Spotify shuffle error:', e)
+        return False
+
+    def toggle_repeat(self):
+        try:
+            cur = self.sp.current_playback()
+            if cur:
+                # Cycle: off -> context -> track -> off
+                modes = ['off', 'context', 'track']
+                cur_mode = cur.get('repeat_state', 'off')
+                next_mode = modes[(modes.index(cur_mode) + 1) % len(modes)]
+                self.sp.repeat(next_mode)
+                return next_mode != 'off'
+        except Exception as e:
+            print('Spotify repeat error:', e)
+        return False
 
     def currently_playing(self):
         try:
@@ -356,7 +383,7 @@ class LocalController:
         self.volume = 0.5
         self.shuffle = False
         self.repeat = False  # 0=off, 1=repeat all, 2=repeat one
-        self.shuffle_order = list(range(len(self.track_paths)))
+        self.shuffle_queue = []
         self.start_time = 0  # Track playback start time
         self.pause_offset = 0  # Time when paused
         pygame.mixer.music.set_volume(self.volume)
@@ -370,23 +397,28 @@ class LocalController:
         """Return list of track basenames."""
         return [os.path.basename(p) for p in self.track_paths]
 
-    def toggle_play_pause(self):
-        if not self.track_paths:
-            return False
+    def play(self):
+        if not self.track_paths: return False
+        if pygame.mixer.music.get_busy() and not self.paused:
+            # Already playing, don't restart
+            return True
+        if self.paused and self.pause_offset > 0:
+            pygame.mixer.music.unpause()
+            self.start_time = time.time() - self.pause_offset
+        else:
+            pygame.mixer.music.play()
+            self.start_time = time.time()
+        self.paused = False
+        return True
+
+    def pause(self):
+        if not self.track_paths: return False
         if pygame.mixer.music.get_busy() and not self.paused:
             pygame.mixer.music.pause()
             self.pause_offset = time.time() - self.start_time
             self.paused = True
-        else:
-            if self.paused and self.pause_offset > 0:
-                pygame.mixer.music.unpause()
-                self.start_time = time.time() - self.pause_offset
-                self.paused = False
-            else:
-                pygame.mixer.music.play()
-                self.start_time = time.time()
-                self.paused = False
-        return True
+            return True
+        return False
 
     def play_track(self, index):
         """Play a specific track by index."""
@@ -403,11 +435,20 @@ class LocalController:
     def next(self):
         if not self.track_paths:
             return False
+            
         if self.shuffle:
-            import random
-            self.idx = random.randint(0, len(self.track_paths) - 1)
+            if not self.shuffle_queue:
+                import random
+                self.shuffle_queue = list(range(len(self.track_paths)))
+                random.shuffle(self.shuffle_queue)
+                # Avoid playing the same song immediately if possible
+                if len(self.shuffle_queue) > 1 and self.shuffle_queue[0] == self.idx:
+                    self.shuffle_queue.append(self.shuffle_queue.pop(0))
+            
+            self.idx = self.shuffle_queue.pop(0)
         else:
             self.idx = (self.idx + 1) % len(self.track_paths)
+            
         pygame.mixer.music.load(self.track_paths[self.idx])
         pygame.mixer.music.play()
         self.start_time = time.time()
@@ -434,10 +475,16 @@ class LocalController:
 
     def toggle_shuffle(self):
         self.shuffle = not self.shuffle
+        if self.shuffle:
+            self.shuffle_queue = [] # Reset queue to start fresh
         return self.shuffle
 
     def toggle_repeat(self):
         self.repeat = not self.repeat
+        return self.repeat
+
+    def get_state(self):
+        return {'shuffle': self.shuffle, 'repeat': self.repeat}
         return self.repeat
 
     def get_elapsed_time(self):
@@ -583,7 +630,7 @@ def create_glassmorphism_overlay(frame, y_start, height, alpha=0.6):
     cv2.line(frame, (0, y_start), (w, y_start), (80, 80, 90), 1)
 
 
-def draw_modern_overlay(frame, track_name, vol=None, action_icon=None, action_time=0, is_playing=False):
+def draw_modern_overlay(frame, track_name, vol=None, action_icon=None, action_time=0, is_playing=False, controller=None):
     """Draw a modern macOS-style overlay."""
     h, w = frame.shape[:2]
     
@@ -602,9 +649,13 @@ def draw_modern_overlay(frame, track_name, vol=None, action_icon=None, action_ti
     
     # Playback controls (centered at bottom)
     control_y = h - 25
-    control_spacing = 50
+    control_spacing = 60
     center_x = w // 2
     
+    state = controller.get_state() if controller else {'shuffle': False, 'repeat': False}
+    
+    # Shuffle
+    draw_shuffle_icon(frame, (center_x - control_spacing * 2, control_y), 20, state.get('shuffle', False))
     # Skip back
     draw_skip_back_icon(frame, (center_x - control_spacing, control_y), 24, (180, 180, 180))
     # Play/Pause
@@ -614,6 +665,8 @@ def draw_modern_overlay(frame, track_name, vol=None, action_icon=None, action_ti
         draw_play_icon(frame, (center_x, control_y), 28, (255, 255, 255))
     # Skip forward
     draw_skip_forward_icon(frame, (center_x + control_spacing, control_y), 24, (180, 180, 180))
+    # Repeat
+    draw_repeat_icon(frame, (center_x + control_spacing * 2, control_y), 20, state.get('repeat', False))
     
     # Volume indicator (right side)
     if vol is not None:
@@ -659,36 +712,57 @@ def draw_modern_overlay(frame, track_name, vol=None, action_icon=None, action_ti
         elif action_icon == 'volume':
             draw_volume_icon(frame, icon_center, icon_size - 20, vol or 50, icon_color)
         elif action_icon == 'shuffle':
-            # Draw shuffle icon (two crossing arrows)
-            cv2.putText(frame, "SHUFFLE", (icon_center[0] - 50, icon_center[1] + 10), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.8, icon_color, 2)
+            draw_shuffle_icon(frame, icon_center, icon_size - 20, True)
         elif action_icon == 'repeat':
-            # Draw repeat icon
-            cv2.putText(frame, "REPEAT", (icon_center[0] - 45, icon_center[1] + 10), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.8, icon_color, 2)
+            draw_repeat_icon(frame, icon_center, icon_size - 20, True)
 
 
 def draw_shuffle_icon(frame, center, size, active=False):
-    """Draw shuffle icon (crossing arrows)."""
+    """Draw a professional-style shuffle icon (crossing arrows)."""
     cx, cy = center
-    color = (100, 200, 100) if active else (150, 150, 150)
-    # Draw two crossing lines with arrows
-    cv2.line(frame, (cx - size//3, cy - size//4), (cx + size//3, cy + size//4), color, 2)
-    cv2.line(frame, (cx - size//3, cy + size//4), (cx + size//3, cy - size//4), color, 2)
-    # Arrow heads
-    cv2.line(frame, (cx + size//3 - 4, cy + size//4 - 4), (cx + size//3, cy + size//4), color, 2)
-    cv2.line(frame, (cx + size//3, cy - size//4), (cx + size//3 - 4, cy - size//4 + 4), color, 2)
+    color = (0, 255, 255) if active else (180, 180, 180)
+    thickness = 2
+    
+    # Draw two crossing curved-like lines for a more premium look
+    # Top-left to bottom-right
+    cv2.line(frame, (cx - size//2, cy - size//3), (cx + size//2, cy + size//3), color, thickness)
+    # Bottom-left to top-right (crossing)
+    cv2.line(frame, (cx - size//2, cy + size//3), (cx + size//2, cy - size//3), color, thickness)
+    
+    # Add arrow heads
+    # Arrow for top line
+    pts1 = np.array([
+        [cx + size//2, cy - size//3],
+        [cx + size//2 - 6, cy - size//3 - 3],
+        [cx + size//2 - 3, cy - size//3 + 6]
+    ], np.int32)
+    cv2.fillPoly(frame, [pts1], color)
+    
+    # Arrow for bottom line
+    pts2 = np.array([
+        [cx + size//2, cy + size//3],
+        [cx + size//2 - 6, cy + size//3 + 3],
+        [cx + size//2 - 3, cy + size//3 - 6]
+    ], np.int32)
+    cv2.fillPoly(frame, [pts2], color)
 
 
 def draw_repeat_icon(frame, center, size, active=False):
-    """Draw repeat icon (circular arrow)."""
+    """Draw a professional-style repeat icon (circular arrow)."""
     cx, cy = center
-    color = (100, 200, 100) if active else (150, 150, 150)
-    # Draw arc
-    cv2.ellipse(frame, (cx, cy), (size//3, size//4), 0, 30, 330, color, 2)
-    # Arrow at end
-    cv2.line(frame, (cx + size//3 - 2, cy - 2), (cx + size//3 + 4, cy - 6), color, 2)
-    cv2.line(frame, (cx + size//3 - 2, cy - 2), (cx + size//3 + 2, cy + 4), color, 2)
+    color = (0, 255, 0) if active else (180, 180, 180)
+    thickness = 2
+    
+    # Draw a 3/4 circle for the repeat loop
+    cv2.ellipse(frame, (cx, cy), (size//2, size//2), 0, -30, 300, color, thickness)
+    
+    # Add arrowhead at the end of the loop
+    pts = np.array([
+        [cx + size//2 + 2, cy - 8],
+        [cx + size//2 - 4, cy - 2],
+        [cx + size//2 + 8, cy + 2]
+    ], np.int32)
+    cv2.fillPoly(frame, [pts], color)
 
 
 def draw_song_list(frame, track_names, current_idx, sidebar_width=250):
@@ -815,8 +889,7 @@ def main(debug=False):
     last_action_time = 0
     action_icon = None
     is_playing = False
-    shuffle_active = False
-    repeat_active = False
+    active_gesture = None # State for one-shot execution
     
     # Create resizable window
     window_name = 'PalmPlay - Gesture Music Player'
@@ -842,6 +915,15 @@ def main(debug=False):
 
             gesture, data = recognizer.recognize(hand)
 
+            # Synchronized UI: Draw real-time pinch connection line
+            if gesture == 'volume' and hand:
+                lm = hand['lm']
+                x4, y4 = int(lm[4][0] * cam_w), int(lm[4][1] * cam_h)
+                x8, y8 = int(lm[8][0] * cam_w), int(lm[8][1] * cam_h)
+                cv2.line(out_frame, (x4, y4), (x8, y8), (0, 255, 255), 2)
+                cv2.circle(out_frame, (x4, y4), 5, (0, 255, 0), -1)
+                cv2.circle(out_frame, (x8, y8), 5, (0, 255, 0), -1)
+
             # Get track info
             track_name = None
             track_names = []
@@ -854,54 +936,90 @@ def main(debug=False):
 
             # Handle gestures
             if gesture == 'volume':
+                active_gesture = 'volume' # Volume is continuous
                 vol = data
-                if controller:
+                # API Throttling & UI Sync: Only send significant changes
+                if controller and abs(vol - current_volume) >= 1:
                     controller.set_volume(vol)
+                
+                # Robust System-Wide Volume Sync (Windows only)
+                if abs(vol - current_volume) >= 1:
+                    try:
+                        if _has_pycaw:
+                            # Use pycaw for direct master volume control
+                            devices = AudioUtilities.GetSpeakers()
+                            interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                            volume_manager = cast(interface, POINTER(IAudioEndpointVolume))
+                            # Map 0-100 to pycaw's range (scalar 0.0 to 1.0)
+                            volume_manager.SetMasterVolumeLevelScalar(vol / 100.0, None)
+                        elif os.name == 'nt':
+                            # Keyboard event fallback
+                            keycode = 0xAF if vol > current_volume else 0xAE
+                            ctypes.windll.user32.keybd_event(keycode, 0, 0, 0)
+                            ctypes.windll.user32.keybd_event(keycode, 0, 2, 0)
+                    except: pass
+                    
                 current_volume = vol
                 action_icon = 'volume'
                 last_action_time = time.time()
-                print(f'[GESTURE] volume -> {vol}%')
                 
-            elif gesture == 'fist' and recognizer.cooldown_ok('toggle'):
-                if controller:
-                    ok = controller.toggle_play_pause()
-                    if ok:
-                        is_playing = not is_playing
-                        action_icon = 'pause' if is_playing else 'play'
-                last_action_time = time.time()
-                print('[GESTURE] fist -> toggle play/pause')
+            elif gesture != active_gesture:
+                # One-shot logic: only trigger if gesture has changed
+                active_gesture = gesture
                 
-            elif gesture == 'swipe_right' and recognizer.cooldown_ok('next'):
-                if controller:
-                    ok = controller.next()
-                    if ok:
-                        action_icon = 'next'
-                        is_playing = True
-                last_action_time = time.time()
-                print('[GESTURE] swipe right -> next track')
-                
-            elif gesture == 'swipe_left' and recognizer.cooldown_ok('prev'):
-                if controller:
-                    ok = controller.previous()
-                    if ok:
-                        action_icon = 'prev'
-                        is_playing = True
-                last_action_time = time.time()
-                print('[GESTURE] swipe left -> previous track')
-                
-            elif gesture == 'open_palm' and recognizer.cooldown_ok('shuffle'):
-                if controller and hasattr(controller, 'toggle_shuffle'):
-                    shuffle_active = controller.toggle_shuffle()
-                    action_icon = 'shuffle'
+                if gesture == 'pause' and recognizer.cooldown_ok('pause'):
+                    if controller:
+                        ok = controller.pause()
+                        if ok:
+                            is_playing = False
+                            action_icon = 'pause'
                     last_action_time = time.time()
-                    print(f'[GESTURE] open palm -> shuffle {"ON" if shuffle_active else "OFF"}')
+                    print('[GESTURE] Fist -> Pause')
                     
-            elif gesture == 'thumb_up' and recognizer.cooldown_ok('repeat'):
-                if controller and hasattr(controller, 'toggle_repeat'):
-                    repeat_active = controller.toggle_repeat()
-                    action_icon = 'repeat'
+                elif gesture == 'play' and recognizer.cooldown_ok('play'):
+                    if controller:
+                        ok = controller.play()
+                        if ok:
+                            is_playing = True
+                            action_icon = 'play'
                     last_action_time = time.time()
-                    print(f'[GESTURE] thumb up -> repeat {"ON" if repeat_active else "OFF"}')
+                    print('[GESTURE] Open Hand -> Play')
+                    
+                elif gesture == 'next' and recognizer.cooldown_ok('next'):
+                    if controller:
+                        ok = controller.next()
+                        if ok:
+                            action_icon = 'next'
+                            is_playing = True
+                    last_action_time = time.time()
+                    print('[GESTURE] Right edge -> Next track')
+                    
+                elif gesture == 'prev' and recognizer.cooldown_ok('prev'):
+                    if controller:
+                        ok = controller.previous()
+                        if ok:
+                            action_icon = 'prev'
+                            is_playing = True
+                    last_action_time = time.time()
+                    print('[GESTURE] Left edge -> Previous track')
+                
+                elif gesture == 'shuffle' and recognizer.cooldown_ok('shuffle'):
+                    if controller and hasattr(controller, 'toggle_shuffle'):
+                        controller.toggle_shuffle()
+                        action_icon = 'shuffle'
+                    last_action_time = time.time()
+                    print('[GESTURE] 2 fingers -> Toggle Shuffle')
+                    
+                elif gesture == 'repeat' and recognizer.cooldown_ok('repeat'):
+                    if controller and hasattr(controller, 'toggle_repeat'):
+                        controller.repeat = not controller.repeat
+                        action_icon = 'repeat'
+                    last_action_time = time.time()
+                    print('[GESTURE] 3 fingers -> Toggle Repeat')
+            
+            elif gesture is None:
+                active_gesture = None
+                
 
             # Create composite frame with sidebar
             composite_width = cam_w + SIDEBAR_WIDTH
@@ -919,26 +1037,20 @@ def main(debug=False):
                 cv2.putText(composite_frame, "No tracks", (SIDEBAR_WIDTH//2 - 40, cam_h//2), 
                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (100, 100, 100), 1)
             
-            # Draw shuffle/repeat indicators at bottom of sidebar
-            indicator_y = cam_h - 40
-            draw_shuffle_icon(composite_frame, (50, indicator_y), 30, shuffle_active)
-            cv2.putText(composite_frame, "Shuffle", (70, indicator_y + 5), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.4, (150, 150, 150), 1)
-            draw_repeat_icon(composite_frame, (180, indicator_y), 30, repeat_active)
-            cv2.putText(composite_frame, "Repeat", (200, indicator_y + 5), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.4, (150, 150, 150), 1)
             
             # Draw modern overlay on the camera portion (right side)
             camera_portion = composite_frame[:, SIDEBAR_WIDTH:]
-            draw_modern_overlay(camera_portion, track_name, current_volume, action_icon, last_action_time, is_playing)
+            draw_modern_overlay(camera_portion, track_name, current_volume, action_icon, last_action_time, is_playing, controller)
             composite_frame[:, SIDEBAR_WIDTH:] = camera_portion
 
             cv2.imshow(window_name, composite_frame)
             key = cv2.waitKey(1) & 0xFF
             if key == 27 or key == ord('q'):
                 break
+    except Exception:
+        traceback.print_exc()
     finally:
-        cap.release()
+        if 'cap' in locals() and cap: cap.release()
         cv2.destroyAllWindows()
 
 

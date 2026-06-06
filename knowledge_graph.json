@@ -1,0 +1,207 @@
+{
+    "modules": {
+        "app.py": {
+            "imports": [
+                "streamlit",
+                "mediapipe",
+                "mediapipe.tasks",
+                "pygame",
+                "io",
+                "PIL",
+                "random",
+                "cv2",
+                "mediapipe.tasks.python",
+                "base64",
+                "collections",
+                "os",
+                "numpy",
+                "mutagen.id3",
+                "time",
+                "mutagen.mp3"
+            ],
+            "functions": [
+                "get_cover_art",
+                "create_default_cover",
+                "image_to_base64",
+                "load_tracks",
+                "play_track",
+                "toggle_play",
+                "next_track",
+                "prev_track",
+                "set_volume",
+                "main"
+            ],
+            "classes": []
+        },
+        "test_tasks_api.py": {
+            "imports": [
+                "mediapipe.tasks.python",
+                "mediapipe.tasks.python.vision"
+            ],
+            "functions": [],
+            "classes": []
+        },
+        "server.py": {
+            "imports": [
+                "mediapipe",
+                "io",
+                "PIL",
+                "uvicorn",
+                "collections",
+                "numpy",
+                "time",
+                "mediapipe.tasks",
+                "pygame",
+                "fastapi.middleware.cors",
+                "base64",
+                "fastapi",
+                "json",
+                "asyncio",
+                "random",
+                "cv2",
+                "os",
+                "mutagen.mp3",
+                "fastapi.staticfiles",
+                "fastapi.responses",
+                "mediapipe.tasks.python",
+                "mutagen.id3"
+            ],
+            "functions": [
+                "init_hand_detector",
+                "__init__",
+                "load_folder",
+                "play_track",
+                "toggle_play",
+                "next_track",
+                "prev_track",
+                "set_volume",
+                "get_state",
+                "__init__",
+                "fingers_up",
+                "cooldown_ok",
+                "recognize"
+            ],
+            "classes": [
+                "MusicPlayer",
+                "GestureRecognizer"
+            ]
+        },
+        "debug_mp.py": {
+            "imports": [
+                "mediapipe",
+                "mediapipe.python.solutions"
+            ],
+            "functions": [],
+            "classes": []
+        },
+        "check_env.py": {
+            "imports": [
+                "importlib"
+            ],
+            "functions": [],
+            "classes": []
+        },
+        "gesture_spotify_player.py": {
+            "imports": [
+                "mediapipe",
+                "dotenv",
+                "collections",
+                "numpy",
+                "time",
+                "mediapipe.tasks",
+                "pygame",
+                "argparse",
+                "spotipy.oauth2",
+                "ctypes",
+                "comtypes",
+                "pycaw.pycaw",
+                "random",
+                "cv2",
+                "os",
+                "tkinter",
+                "traceback",
+                "spotipy",
+                "mediapipe.tasks.python",
+                "math"
+            ],
+            "functions": [
+                "now",
+                "draw_rounded_rect",
+                "draw_play_icon",
+                "draw_pause_icon",
+                "draw_skip_forward_icon",
+                "draw_skip_back_icon",
+                "draw_volume_icon",
+                "create_glassmorphism_overlay",
+                "draw_modern_overlay",
+                "draw_shuffle_icon",
+                "draw_repeat_icon",
+                "draw_song_list",
+                "select_music_folder",
+                "main",
+                "__init__",
+                "find_hands",
+                "__init__",
+                "fingers_up",
+                "smooth_count",
+                "add_center",
+                "detect_swipe",
+                "cooldown_ok",
+                "recognize",
+                "__init__",
+                "is_available",
+                "play",
+                "pause",
+                "next",
+                "previous",
+                "get_state",
+                "set_volume",
+                "toggle_shuffle",
+                "toggle_repeat",
+                "currently_playing",
+                "__init__",
+                "is_available",
+                "get_track_names",
+                "play",
+                "pause",
+                "play_track",
+                "next",
+                "previous",
+                "set_volume",
+                "toggle_shuffle",
+                "toggle_repeat",
+                "get_state",
+                "get_elapsed_time",
+                "currently_playing"
+            ],
+            "classes": [
+                "HandDetector",
+                "GestureRecognizer",
+                "SpotifyController",
+                "LocalController"
+            ]
+        },
+        "generate_tone.py": {
+            "imports": [
+                "os",
+                "numpy",
+                "scipy.io.wavfile"
+            ],
+            "functions": [
+                "generate_sine_wave"
+            ],
+            "classes": []
+        }
+    },
+    "frameworks": [],
+    "apis": [
+        "server.py"
+    ],
+    "databases": [],
+    "deployment": [],
+    "environment_variables": [
+        "SPOTIPY_CLIENT_ID",
+        "SPOTIPY_CLIENT_SECRET",
+        "SPOTIPY_REDIRECT_URI"
+    ]
+}

@@ -80,3 +80,60 @@ Place your `.mp3`, `.wav`, or `.ogg` files in the `local_music/` folder. The app
 ---
 
 *Created with ❤️ for intuitive music control.*
+
+
+<!-- AUTO-GENERATED-DOCS-START -->
+# 🤖 Automated Repository Overview
+
+*This README is automatically generated and updated by AI and CI/CD pipelines.*
+
+## 📊 System Architecture
+
+### Static View
+
+```mermaid
+graph TD;
+    app["app.py"];
+    test_tasks_api["test_tasks_api.py"];
+    server["server.py"];
+    debug_mp["debug_mp.py"];
+    check_env["check_env.py"];
+    gesture_spotify_player["gesture_spotify_player.py"];
+    generate_tone["generate_tone.py"];
+    Client --> server;
+```
+
+### Interactive View
+
+An interactive, clickable node diagram has been generated. [View Interactive Diagram](./diagrams/interactive_architecture.html)
+
+## 🛠️ Technology Stack
+
+- Python ecosystem
+
+
+## ⚙️ Environment Variables
+
+| Variable | Description |
+| -------- | ----------- |
+| `SPOTIPY_CLIENT_ID` | Configured externally |
+| `SPOTIPY_CLIENT_SECRET` | Configured externally |
+| `SPOTIPY_REDIRECT_URI` | Configured externally |
+
+
+## 🚀 Quick Start
+
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Set up environment:**
+   Copy `.env.example` or `.env.bak` to `.env` and configure.
+
+3. **Run the application:**
+   ```bash
+   python app.py  # or streamlit run app.py depending on your framework
+   ```
+
+<!-- AUTO-GENERATED-DOCS-END -->

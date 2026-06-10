@@ -2,26 +2,26 @@
     "modules": {
         "gesture_spotify_player.py": {
             "imports": [
-                "spotipy.oauth2",
-                "os",
-                "dotenv",
-                "math",
-                "ctypes",
-                "cv2",
-                "tkinter",
-                "argparse",
-                "mediapipe.tasks.python",
-                "time",
-                "mediapipe",
-                "spotipy",
-                "comtypes",
-                "numpy",
-                "mediapipe.tasks",
-                "pycaw.pycaw",
-                "traceback",
                 "pygame",
+                "spotipy",
+                "random",
+                "argparse",
+                "tkinter",
+                "cv2",
+                "dotenv",
+                "time",
+                "spotipy.oauth2",
+                "traceback",
+                "numpy",
+                "ctypes",
+                "mediapipe",
+                "comtypes",
                 "collections",
-                "random"
+                "os",
+                "math",
+                "pycaw.pycaw",
+                "mediapipe.tasks.python",
+                "mediapipe.tasks"
             ],
             "functions": [
                 "now",
@@ -82,22 +82,22 @@
         },
         "app.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "pygame",
-                "os",
-                "time",
-                "collections",
-                "numpy",
                 "mediapipe.tasks",
-                "mutagen.id3",
-                "random",
-                "streamlit",
-                "io",
                 "mediapipe",
+                "pygame",
+                "streamlit",
+                "collections",
+                "os",
+                "base64",
+                "io",
+                "mutagen.mp3",
+                "random",
+                "numpy",
+                "mutagen.id3",
                 "cv2",
                 "PIL",
-                "base64",
-                "mutagen.mp3"
+                "mediapipe.tasks.python",
+                "time"
             ],
             "functions": [
                 "get_cover_art",
@@ -115,9 +115,9 @@
         },
         "generate_tone.py": {
             "imports": [
-                "numpy",
+                "os",
                 "scipy.io.wavfile",
-                "os"
+                "numpy"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -141,36 +141,36 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe.python.solutions",
-                "mediapipe"
+                "mediapipe",
+                "mediapipe.python.solutions"
             ],
             "functions": [],
             "classes": []
         },
         "server.py": {
             "imports": [
-                "os",
-                "mutagen.id3",
-                "fastapi.middleware.cors",
-                "io",
+                "pygame",
+                "base64",
+                "mutagen.mp3",
+                "random",
                 "cv2",
                 "PIL",
-                "mutagen.mp3",
-                "mediapipe.tasks.python",
-                "time",
-                "asyncio",
-                "mediapipe",
-                "base64",
-                "json",
-                "numpy",
-                "mediapipe.tasks",
                 "uvicorn",
-                "fastapi",
-                "fastapi.staticfiles",
-                "pygame",
+                "time",
+                "numpy",
+                "mutagen.id3",
+                "fastapi.middleware.cors",
+                "mediapipe",
+                "fastapi.responses",
+                "json",
                 "collections",
-                "random",
-                "fastapi.responses"
+                "fastapi.staticfiles",
+                "os",
+                "io",
+                "fastapi",
+                "mediapipe.tasks.python",
+                "mediapipe.tasks",
+                "asyncio"
             ],
             "functions": [
                 "init_hand_detector",

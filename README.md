@@ -93,13 +93,13 @@ Place your `.mp3`, `.wav`, or `.ogg` files in the `local_music/` folder. The app
 
 ```mermaid
 graph TD;
-    gesture_spotify_player["gesture_spotify_player.py"];
-    app["app.py"];
-    generate_tone["generate_tone.py"];
     test_tasks_api["test_tasks_api.py"];
     check_env["check_env.py"];
-    debug_mp["debug_mp.py"];
+    gesture_spotify_player["gesture_spotify_player.py"];
+    app["app.py"];
     server["server.py"];
+    debug_mp["debug_mp.py"];
+    generate_tone["generate_tone.py"];
     Client --> server;
 ```
 

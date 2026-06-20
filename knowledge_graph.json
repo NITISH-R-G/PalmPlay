@@ -2,8 +2,8 @@
     "modules": {
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
+                "mediapipe.tasks.python.vision",
+                "mediapipe.tasks.python"
             ],
             "functions": [],
             "classes": []
@@ -17,25 +17,25 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "spotipy",
-                "spotipy.oauth2",
-                "mediapipe.tasks",
-                "time",
-                "cv2",
-                "os",
-                "pycaw.pycaw",
-                "argparse",
-                "comtypes",
-                "math",
-                "ctypes",
                 "mediapipe.tasks.python",
-                "random",
-                "dotenv",
                 "pygame",
-                "tkinter",
-                "traceback",
+                "time",
+                "spotipy",
+                "ctypes",
                 "mediapipe",
+                "argparse",
+                "mediapipe.tasks",
+                "traceback",
+                "math",
+                "spotipy.oauth2",
+                "pycaw.pycaw",
+                "comtypes",
                 "collections",
+                "dotenv",
+                "tkinter",
+                "cv2",
+                "random",
+                "os",
                 "numpy"
             ],
             "functions": [
@@ -97,22 +97,22 @@
         },
         "app.py": {
             "imports": [
-                "mediapipe.tasks",
-                "mutagen.id3",
                 "mutagen.mp3",
                 "PIL",
-                "time",
-                "random",
-                "mediapipe",
-                "cv2",
-                "os",
-                "collections",
-                "io",
-                "base64",
-                "pygame",
-                "mediapipe.tasks.python",
                 "streamlit",
-                "numpy"
+                "cv2",
+                "io",
+                "mediapipe.tasks.python",
+                "pygame",
+                "collections",
+                "mediapipe",
+                "random",
+                "os",
+                "mutagen.id3",
+                "base64",
+                "time",
+                "numpy",
+                "mediapipe.tasks"
             ],
             "functions": [
                 "get_cover_art",
@@ -130,27 +130,27 @@
         },
         "server.py": {
             "imports": [
-                "mediapipe.tasks",
-                "time",
-                "asyncio",
-                "cv2",
-                "os",
-                "io",
-                "fastapi.middleware.cors",
-                "mutagen.id3",
-                "fastapi.staticfiles",
-                "mediapipe.tasks.python",
-                "mutagen.mp3",
-                "random",
-                "json",
-                "fastapi",
-                "base64",
-                "pygame",
-                "uvicorn",
-                "PIL",
-                "mediapipe",
-                "collections",
                 "fastapi.responses",
+                "mediapipe.tasks.python",
+                "pygame",
+                "mutagen.id3",
+                "time",
+                "mutagen.mp3",
+                "PIL",
+                "fastapi.staticfiles",
+                "mediapipe",
+                "fastapi.middleware.cors",
+                "mediapipe.tasks",
+                "asyncio",
+                "io",
+                "collections",
+                "json",
+                "base64",
+                "fastapi",
+                "cv2",
+                "random",
+                "os",
+                "uvicorn",
                 "numpy"
             ],
             "functions": [
@@ -184,8 +184,8 @@
         "generate_tone.py": {
             "imports": [
                 "os",
-                "scipy.io.wavfile",
-                "numpy"
+                "numpy",
+                "scipy.io.wavfile"
             ],
             "functions": [
                 "generate_sine_wave"

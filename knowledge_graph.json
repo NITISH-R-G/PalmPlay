@@ -2,8 +2,8 @@
     "modules": {
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python.vision",
-                "mediapipe.tasks.python"
+                "mediapipe.tasks.python",
+                "mediapipe.tasks.python.vision"
             ],
             "functions": [],
             "classes": []
@@ -17,26 +17,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "os",
-                "collections",
+                "math",
+                "time",
+                "random",
+                "tkinter",
+                "spotipy.oauth2",
+                "mediapipe",
+                "cv2",
+                "argparse",
+                "dotenv",
                 "pygame",
                 "mediapipe.tasks",
                 "comtypes",
-                "numpy",
-                "spotipy",
-                "argparse",
-                "dotenv",
-                "cv2",
-                "ctypes",
-                "mediapipe",
-                "time",
-                "math",
+                "os",
+                "collections",
                 "pycaw.pycaw",
-                "traceback",
-                "tkinter",
-                "spotipy.oauth2",
+                "spotipy",
+                "ctypes",
                 "mediapipe.tasks.python",
-                "random"
+                "traceback",
+                "numpy"
             ],
             "functions": [
                 "now",
@@ -97,22 +97,22 @@
         },
         "app.py": {
             "imports": [
-                "mutagen.id3",
-                "os",
-                "numpy",
-                "mediapipe.tasks.python",
-                "collections",
-                "streamlit",
                 "base64",
-                "pygame",
-                "cv2",
-                "mediapipe",
-                "random",
+                "os",
+                "collections",
                 "PIL",
+                "time",
+                "mediapipe",
+                "cv2",
+                "mediapipe.tasks.python",
                 "mutagen.mp3",
-                "mediapipe.tasks",
+                "mutagen.id3",
+                "random",
+                "streamlit",
+                "numpy",
+                "pygame",
                 "io",
-                "time"
+                "mediapipe.tasks"
             ],
             "functions": [
                 "get_cover_art",
@@ -130,28 +130,28 @@
         },
         "server.py": {
             "imports": [
-                "os",
-                "collections",
-                "pygame",
-                "mutagen.mp3",
-                "mediapipe.tasks",
-                "mutagen.id3",
-                "asyncio",
-                "numpy",
-                "base64",
-                "cv2",
-                "mediapipe",
-                "io",
                 "time",
-                "uvicorn",
-                "json",
-                "PIL",
-                "fastapi.middleware.cors",
-                "mediapipe.tasks.python",
-                "fastapi",
                 "random",
                 "fastapi.responses",
-                "fastapi.staticfiles"
+                "fastapi",
+                "mutagen.id3",
+                "mediapipe",
+                "cv2",
+                "asyncio",
+                "pygame",
+                "mediapipe.tasks",
+                "os",
+                "collections",
+                "mutagen.mp3",
+                "json",
+                "PIL",
+                "base64",
+                "mediapipe.tasks.python",
+                "fastapi.middleware.cors",
+                "uvicorn",
+                "numpy",
+                "fastapi.staticfiles",
+                "io"
             ],
             "functions": [
                 "init_hand_detector",
@@ -183,8 +183,8 @@
         },
         "generate_tone.py": {
             "imports": [
-                "os",
                 "numpy",
+                "os",
                 "scipy.io.wavfile"
             ],
             "functions": [

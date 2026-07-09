@@ -2,8 +2,8 @@
     "modules": {
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
+                "mediapipe.tasks.python.vision",
+                "mediapipe.tasks.python"
             ],
             "functions": [],
             "classes": []
@@ -17,26 +17,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "cv2",
-                "spotipy",
-                "random",
-                "math",
-                "pygame",
-                "traceback",
-                "tkinter",
-                "collections",
+                "ctypes",
+                "spotipy.oauth2",
                 "time",
-                "pycaw.pycaw",
+                "mediapipe.tasks.python",
+                "traceback",
+                "mediapipe.tasks",
+                "pygame",
+                "mediapipe",
+                "comtypes",
+                "cv2",
                 "argparse",
                 "os",
+                "pycaw.pycaw",
+                "random",
+                "math",
                 "numpy",
-                "mediapipe.tasks.python",
-                "comtypes",
-                "mediapipe",
-                "ctypes",
-                "mediapipe.tasks",
-                "spotipy.oauth2",
-                "dotenv"
+                "dotenv",
+                "collections",
+                "tkinter",
+                "spotipy"
             ],
             "functions": [
                 "now",
@@ -97,22 +97,22 @@
         },
         "app.py": {
             "imports": [
-                "cv2",
-                "collections",
-                "mutagen.id3",
-                "io",
-                "PIL",
-                "os",
-                "numpy",
                 "mediapipe.tasks",
-                "mutagen.mp3",
-                "time",
-                "random",
-                "mediapipe.tasks.python",
+                "numpy",
                 "streamlit",
                 "pygame",
-                "base64",
-                "mediapipe"
+                "mediapipe",
+                "io",
+                "cv2",
+                "time",
+                "collections",
+                "os",
+                "PIL",
+                "mediapipe.tasks.python",
+                "mutagen.id3",
+                "random",
+                "mutagen.mp3",
+                "base64"
             ],
             "functions": [
                 "get_cover_art",
@@ -130,28 +130,28 @@
         },
         "server.py": {
             "imports": [
-                "cv2",
-                "fastapi.middleware.cors",
-                "random",
-                "fastapi.responses",
-                "PIL",
-                "fastapi",
-                "pygame",
-                "collections",
-                "mutagen.mp3",
+                "fastapi.staticfiles",
+                "io",
                 "time",
                 "asyncio",
-                "fastapi.staticfiles",
-                "mutagen.id3",
-                "io",
-                "json",
-                "os",
-                "numpy",
                 "mediapipe.tasks.python",
-                "mediapipe",
-                "uvicorn",
+                "fastapi.middleware.cors",
+                "fastapi.responses",
+                "base64",
                 "mediapipe.tasks",
-                "base64"
+                "pygame",
+                "mediapipe",
+                "cv2",
+                "mutagen.id3",
+                "json",
+                "mutagen.mp3",
+                "os",
+                "random",
+                "numpy",
+                "collections",
+                "PIL",
+                "uvicorn",
+                "fastapi"
             ],
             "functions": [
                 "init_hand_detector",
@@ -183,9 +183,9 @@
         },
         "generate_tone.py": {
             "imports": [
+                "numpy",
                 "scipy.io.wavfile",
-                "os",
-                "numpy"
+                "os"
             ],
             "functions": [
                 "generate_sine_wave"

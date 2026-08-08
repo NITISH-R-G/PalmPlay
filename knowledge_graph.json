@@ -2,9 +2,9 @@
     "modules": {
         "generate_tone.py": {
             "imports": [
-                "numpy",
+                "os",
                 "scipy.io.wavfile",
-                "os"
+                "numpy"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -13,30 +13,30 @@
         },
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python.vision",
-                "mediapipe.tasks.python"
+                "mediapipe.tasks.python",
+                "mediapipe.tasks.python.vision"
             ],
             "functions": [],
             "classes": []
         },
         "app.py": {
             "imports": [
-                "io",
-                "random",
-                "mediapipe.tasks",
-                "numpy",
-                "os",
-                "mediapipe.tasks.python",
-                "streamlit",
-                "mutagen.mp3",
-                "PIL",
                 "pygame",
-                "cv2",
-                "base64",
-                "mediapipe",
+                "streamlit",
+                "random",
                 "collections",
                 "time",
-                "mutagen.id3"
+                "mediapipe.tasks",
+                "os",
+                "mutagen.id3",
+                "io",
+                "mediapipe",
+                "PIL",
+                "base64",
+                "cv2",
+                "mutagen.mp3",
+                "mediapipe.tasks.python",
+                "numpy"
             ],
             "functions": [
                 "get_cover_art",
@@ -54,28 +54,28 @@
         },
         "server.py": {
             "imports": [
-                "io",
-                "numpy",
-                "fastapi",
                 "json",
-                "mediapipe",
-                "uvicorn",
-                "os",
-                "mediapipe.tasks.python",
-                "asyncio",
-                "pygame",
-                "collections",
                 "mediapipe.tasks",
-                "mutagen.mp3",
-                "PIL",
+                "fastapi.middleware.cors",
+                "fastapi.staticfiles",
+                "io",
                 "base64",
                 "cv2",
-                "random",
-                "time",
-                "mutagen.id3",
-                "fastapi.staticfiles",
                 "fastapi.responses",
-                "fastapi.middleware.cors"
+                "numpy",
+                "time",
+                "collections",
+                "mutagen.id3",
+                "os",
+                "pygame",
+                "fastapi",
+                "asyncio",
+                "random",
+                "mediapipe",
+                "PIL",
+                "uvicorn",
+                "mutagen.mp3",
+                "mediapipe.tasks.python"
             ],
             "functions": [
                 "init_hand_detector",
@@ -114,26 +114,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "numpy",
-                "dotenv",
-                "tkinter",
-                "mediapipe",
                 "spotipy.oauth2",
-                "traceback",
-                "os",
-                "mediapipe.tasks.python",
-                "pygame",
-                "ctypes",
-                "comtypes",
-                "collections",
-                "pycaw.pycaw",
                 "spotipy",
                 "mediapipe.tasks",
-                "math",
                 "cv2",
-                "random",
+                "numpy",
                 "time",
-                "argparse"
+                "argparse",
+                "tkinter",
+                "ctypes",
+                "math",
+                "collections",
+                "os",
+                "traceback",
+                "pycaw.pycaw",
+                "pygame",
+                "comtypes",
+                "random",
+                "dotenv",
+                "mediapipe",
+                "mediapipe.tasks.python"
             ],
             "functions": [
                 "now",

@@ -2,9 +2,9 @@
     "modules": {
         "generate_tone.py": {
             "imports": [
-                "scipy.io.wavfile",
                 "numpy",
-                "os"
+                "os",
+                "scipy.io.wavfile"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -13,8 +13,8 @@
         },
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
+                "mediapipe.tasks.python.vision",
+                "mediapipe.tasks.python"
             ],
             "functions": [],
             "classes": []
@@ -22,21 +22,21 @@
         "app.py": {
             "imports": [
                 "PIL",
-                "random",
-                "io",
-                "collections",
-                "numpy",
-                "pygame",
                 "time",
+                "mutagen.mp3",
+                "mediapipe.tasks.python",
+                "cv2",
+                "numpy",
+                "io",
+                "mutagen.id3",
+                "os",
+                "base64",
                 "streamlit",
                 "mediapipe",
-                "cv2",
-                "base64",
-                "mutagen.id3",
-                "mutagen.mp3",
-                "os",
                 "mediapipe.tasks",
-                "mediapipe.tasks.python"
+                "random",
+                "collections",
+                "pygame"
             ],
             "functions": [
                 "get_cover_art",
@@ -54,28 +54,28 @@
         },
         "server.py": {
             "imports": [
-                "time",
-                "mediapipe",
-                "base64",
-                "mutagen.mp3",
-                "os",
-                "json",
-                "random",
-                "uvicorn",
-                "pygame",
-                "mediapipe.tasks.python",
-                "fastapi",
                 "PIL",
-                "fastapi.middleware.cors",
-                "io",
-                "collections",
-                "cv2",
-                "mutagen.id3",
-                "asyncio",
-                "fastapi.responses",
+                "mediapipe.tasks.python",
                 "numpy",
+                "mediapipe.tasks",
+                "uvicorn",
+                "time",
+                "mutagen.id3",
+                "io",
+                "fastapi.middleware.cors",
+                "json",
+                "fastapi.responses",
+                "random",
+                "pygame",
+                "mutagen.mp3",
+                "asyncio",
+                "collections",
+                "fastapi",
+                "cv2",
+                "os",
                 "fastapi.staticfiles",
-                "mediapipe.tasks"
+                "base64",
+                "mediapipe"
             ],
             "functions": [
                 "init_hand_detector",
@@ -106,34 +106,34 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe",
-                "mediapipe.python.solutions"
+                "mediapipe.python.solutions",
+                "mediapipe"
             ],
             "functions": [],
             "classes": []
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "pycaw.pycaw",
-                "time",
-                "mediapipe",
-                "os",
-                "random",
-                "argparse",
-                "spotipy",
-                "pygame",
-                "dotenv",
-                "math",
                 "mediapipe.tasks.python",
-                "tkinter",
-                "traceback",
-                "spotipy.oauth2",
-                "collections",
-                "ctypes",
-                "cv2",
-                "comtypes",
                 "numpy",
-                "mediapipe.tasks"
+                "mediapipe.tasks",
+                "traceback",
+                "time",
+                "dotenv",
+                "pycaw.pycaw",
+                "random",
+                "pygame",
+                "ctypes",
+                "comtypes",
+                "spotipy",
+                "collections",
+                "math",
+                "cv2",
+                "tkinter",
+                "os",
+                "spotipy.oauth2",
+                "mediapipe",
+                "argparse"
             ],
             "functions": [
                 "now",

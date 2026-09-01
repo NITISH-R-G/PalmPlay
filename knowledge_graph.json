@@ -2,22 +2,22 @@
     "modules": {
         "app.py": {
             "imports": [
-                "mediapipe",
-                "random",
-                "cv2",
-                "io",
                 "time",
-                "streamlit",
-                "base64",
-                "collections",
-                "pygame",
+                "random",
                 "PIL",
-                "mutagen.mp3",
+                "pygame",
                 "mediapipe.tasks.python",
-                "os",
+                "mediapipe",
                 "mutagen.id3",
+                "base64",
                 "mediapipe.tasks",
-                "numpy"
+                "mutagen.mp3",
+                "numpy",
+                "io",
+                "streamlit",
+                "cv2",
+                "collections",
+                "os"
             ],
             "functions": [
                 "get_cover_art",
@@ -35,26 +35,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "mediapipe",
-                "pycaw.pycaw",
-                "spotipy.oauth2",
-                "spotipy",
-                "collections",
-                "os",
                 "comtypes",
-                "tkinter",
-                "random",
-                "cv2",
-                "time",
-                "traceback",
-                "pygame",
                 "ctypes",
+                "spotipy.oauth2",
+                "mediapipe.tasks",
+                "spotipy",
+                "cv2",
+                "tkinter",
                 "numpy",
-                "dotenv",
-                "argparse",
                 "math",
+                "random",
+                "collections",
+                "dotenv",
                 "mediapipe.tasks.python",
-                "mediapipe.tasks"
+                "traceback",
+                "argparse",
+                "pycaw.pycaw",
+                "time",
+                "pygame",
+                "mediapipe",
+                "os"
             ],
             "functions": [
                 "now",
@@ -130,9 +130,9 @@
         },
         "generate_tone.py": {
             "imports": [
-                "scipy.io.wavfile",
                 "os",
-                "numpy"
+                "numpy",
+                "scipy.io.wavfile"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -141,36 +141,36 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe",
-                "mediapipe.python.solutions"
+                "mediapipe.python.solutions",
+                "mediapipe"
             ],
             "functions": [],
             "classes": []
         },
         "server.py": {
             "imports": [
-                "fastapi.middleware.cors",
-                "mediapipe",
+                "fastapi",
+                "base64",
+                "mediapipe.tasks",
+                "uvicorn",
+                "io",
+                "cv2",
+                "fastapi.staticfiles",
+                "numpy",
+                "random",
+                "PIL",
+                "mutagen.id3",
                 "json",
                 "collections",
-                "fastapi.staticfiles",
-                "os",
-                "asyncio",
-                "io",
-                "fastapi",
-                "uvicorn",
-                "PIL",
-                "mutagen.mp3",
-                "mutagen.id3",
-                "random",
-                "cv2",
-                "time",
-                "base64",
-                "pygame",
-                "fastapi.responses",
-                "numpy",
                 "mediapipe.tasks.python",
-                "mediapipe.tasks"
+                "mutagen.mp3",
+                "fastapi.responses",
+                "time",
+                "asyncio",
+                "pygame",
+                "mediapipe",
+                "os",
+                "fastapi.middleware.cors"
             ],
             "functions": [
                 "init_hand_detector",

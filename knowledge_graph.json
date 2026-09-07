@@ -2,30 +2,30 @@
     "modules": {
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python.vision",
-                "mediapipe.tasks.python"
+                "mediapipe.tasks.python",
+                "mediapipe.tasks.python.vision"
             ],
             "functions": [],
             "classes": []
         },
         "app.py": {
             "imports": [
-                "numpy",
-                "mediapipe.tasks",
-                "random",
-                "PIL",
+                "mutagen.id3",
                 "time",
-                "streamlit",
                 "os",
-                "io",
+                "streamlit",
+                "PIL",
+                "random",
+                "mediapipe",
                 "mutagen.mp3",
                 "cv2",
-                "collections",
-                "base64",
-                "pygame",
-                "mediapipe",
+                "io",
                 "mediapipe.tasks.python",
-                "mutagen.id3"
+                "numpy",
+                "collections",
+                "pygame",
+                "base64",
+                "mediapipe.tasks"
             ],
             "functions": [
                 "get_cover_art",
@@ -43,16 +43,16 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe.python.solutions",
-                "mediapipe"
+                "mediapipe",
+                "mediapipe.python.solutions"
             ],
             "functions": [],
             "classes": []
         },
         "generate_tone.py": {
             "imports": [
-                "numpy",
                 "scipy.io.wavfile",
+                "numpy",
                 "os"
             ],
             "functions": [
@@ -62,28 +62,28 @@
         },
         "server.py": {
             "imports": [
-                "random",
-                "asyncio",
-                "fastapi.middleware.cors",
-                "mutagen.id3",
-                "fastapi.responses",
-                "numpy",
-                "uvicorn",
-                "mediapipe.tasks",
-                "fastapi.staticfiles",
-                "fastapi",
-                "io",
+                "cv2",
                 "mediapipe.tasks.python",
-                "PIL",
-                "json",
-                "mutagen.mp3",
                 "pygame",
-                "mediapipe",
+                "base64",
+                "random",
+                "PIL",
+                "io",
+                "numpy",
+                "fastapi.middleware.cors",
+                "collections",
+                "mutagen.mp3",
+                "mutagen.id3",
+                "fastapi.staticfiles",
                 "time",
                 "os",
-                "cv2",
-                "collections",
-                "base64"
+                "fastapi",
+                "json",
+                "asyncio",
+                "mediapipe",
+                "fastapi.responses",
+                "uvicorn",
+                "mediapipe.tasks"
             ],
             "functions": [
                 "init_hand_detector",
@@ -107,26 +107,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
+                "pycaw.pycaw",
+                "cv2",
+                "mediapipe.tasks.python",
+                "pygame",
                 "random",
+                "spotipy",
+                "traceback",
+                "tkinter",
+                "spotipy.oauth2",
                 "comtypes",
                 "numpy",
-                "mediapipe.tasks",
-                "argparse",
-                "traceback",
-                "spotipy.oauth2",
-                "dotenv",
-                "mediapipe.tasks.python",
-                "tkinter",
-                "math",
-                "pycaw.pycaw",
-                "pygame",
-                "mediapipe",
+                "collections",
                 "time",
-                "spotipy",
                 "os",
-                "cv2",
+                "math",
+                "argparse",
+                "dotenv",
+                "mediapipe",
                 "ctypes",
-                "collections"
+                "mediapipe.tasks"
             ],
             "functions": [
                 "now",

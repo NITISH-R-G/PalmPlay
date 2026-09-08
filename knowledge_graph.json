@@ -2,30 +2,30 @@
     "modules": {
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
+                "mediapipe.tasks.python.vision",
+                "mediapipe.tasks.python"
             ],
             "functions": [],
             "classes": []
         },
         "app.py": {
             "imports": [
-                "mutagen.id3",
-                "time",
-                "os",
+                "numpy",
+                "pygame",
                 "streamlit",
-                "PIL",
-                "random",
+                "os",
                 "mediapipe",
                 "mutagen.mp3",
-                "cv2",
+                "random",
                 "io",
-                "mediapipe.tasks.python",
-                "numpy",
-                "collections",
-                "pygame",
+                "PIL",
+                "time",
                 "base64",
-                "mediapipe.tasks"
+                "mediapipe.tasks",
+                "mediapipe.tasks.python",
+                "mutagen.id3",
+                "cv2",
+                "collections"
             ],
             "functions": [
                 "get_cover_art",
@@ -43,8 +43,8 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe",
-                "mediapipe.python.solutions"
+                "mediapipe.python.solutions",
+                "mediapipe"
             ],
             "functions": [],
             "classes": []
@@ -62,28 +62,28 @@
         },
         "server.py": {
             "imports": [
-                "cv2",
-                "mediapipe.tasks.python",
-                "pygame",
-                "base64",
-                "random",
-                "PIL",
-                "io",
-                "numpy",
-                "fastapi.middleware.cors",
-                "collections",
-                "mutagen.mp3",
-                "mutagen.id3",
-                "fastapi.staticfiles",
-                "time",
-                "os",
-                "fastapi",
-                "json",
                 "asyncio",
-                "mediapipe",
-                "fastapi.responses",
+                "json",
+                "pygame",
+                "fastapi",
+                "random",
+                "io",
+                "time",
+                "cv2",
+                "collections",
                 "uvicorn",
-                "mediapipe.tasks"
+                "numpy",
+                "fastapi.staticfiles",
+                "mediapipe.tasks",
+                "mutagen.mp3",
+                "fastapi.responses",
+                "base64",
+                "PIL",
+                "mediapipe.tasks.python",
+                "mutagen.id3",
+                "fastapi.middleware.cors",
+                "os",
+                "mediapipe"
             ],
             "functions": [
                 "init_hand_detector",
@@ -107,26 +107,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "pycaw.pycaw",
-                "cv2",
-                "mediapipe.tasks.python",
+                "spotipy.oauth2",
                 "pygame",
                 "random",
-                "spotipy",
-                "traceback",
-                "tkinter",
-                "spotipy.oauth2",
-                "comtypes",
-                "numpy",
-                "collections",
+                "pycaw.pycaw",
                 "time",
+                "cv2",
+                "collections",
+                "numpy",
+                "argparse",
+                "ctypes",
+                "mediapipe.tasks",
+                "mediapipe.tasks.python",
+                "dotenv",
+                "tkinter",
+                "traceback",
+                "spotipy",
                 "os",
                 "math",
-                "argparse",
-                "dotenv",
                 "mediapipe",
-                "ctypes",
-                "mediapipe.tasks"
+                "comtypes"
             ],
             "functions": [
                 "now",

@@ -2,28 +2,28 @@
     "modules": {
         "server.py": {
             "imports": [
-                "fastapi",
-                "mutagen.mp3",
-                "random",
-                "mediapipe.tasks.python",
-                "uvicorn",
-                "fastapi.middleware.cors",
-                "numpy",
-                "fastapi.responses",
-                "fastapi.staticfiles",
-                "asyncio",
                 "os",
-                "json",
-                "mediapipe",
-                "time",
-                "io",
-                "base64",
-                "cv2",
-                "PIL",
                 "mutagen.id3",
-                "pygame",
+                "random",
+                "fastapi.staticfiles",
                 "mediapipe.tasks",
-                "collections"
+                "mediapipe.tasks.python",
+                "PIL",
+                "mutagen.mp3",
+                "fastapi.responses",
+                "uvicorn",
+                "time",
+                "json",
+                "cv2",
+                "fastapi.middleware.cors",
+                "base64",
+                "mediapipe",
+                "numpy",
+                "collections",
+                "asyncio",
+                "fastapi",
+                "io",
+                "pygame"
             ],
             "functions": [
                 "init_hand_detector",
@@ -55,26 +55,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "ctypes",
-                "tkinter",
-                "random",
-                "mediapipe.tasks.python",
-                "numpy",
-                "traceback",
-                "spotipy",
-                "math",
                 "os",
-                "mediapipe",
+                "spotipy.oauth2",
+                "random",
+                "mediapipe.tasks",
+                "dotenv",
+                "mediapipe.tasks.python",
+                "argparse",
+                "spotipy",
+                "pycaw.pycaw",
                 "time",
                 "cv2",
-                "spotipy.oauth2",
-                "pycaw.pycaw",
-                "argparse",
                 "comtypes",
-                "pygame",
-                "dotenv",
-                "mediapipe.tasks",
-                "collections"
+                "tkinter",
+                "traceback",
+                "mediapipe",
+                "numpy",
+                "ctypes",
+                "math",
+                "collections",
+                "pygame"
             ],
             "functions": [
                 "now",
@@ -135,9 +135,9 @@
         },
         "generate_tone.py": {
             "imports": [
-                "scipy.io.wavfile",
                 "numpy",
-                "os"
+                "os",
+                "scipy.io.wavfile"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -146,22 +146,22 @@
         },
         "app.py": {
             "imports": [
+                "cv2",
                 "os",
-                "mediapipe",
-                "time",
-                "PIL",
+                "numpy",
                 "mutagen.id3",
                 "streamlit",
-                "numpy",
-                "io",
-                "pygame",
-                "mutagen.mp3",
-                "base64",
-                "cv2",
-                "mediapipe.tasks",
                 "random",
+                "mutagen.mp3",
+                "mediapipe.tasks",
+                "pygame",
+                "time",
+                "collections",
                 "mediapipe.tasks.python",
-                "collections"
+                "base64",
+                "mediapipe",
+                "io",
+                "PIL"
             ],
             "functions": [
                 "get_cover_art",
@@ -186,8 +186,8 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe",
-                "mediapipe.python.solutions"
+                "mediapipe.python.solutions",
+                "mediapipe"
             ],
             "functions": [],
             "classes": []

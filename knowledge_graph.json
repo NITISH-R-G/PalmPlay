@@ -2,27 +2,27 @@
     "modules": {
         "server.py": {
             "imports": [
-                "mutagen.mp3",
-                "json",
-                "random",
-                "fastapi.responses",
-                "cv2",
-                "mutagen.id3",
-                "base64",
-                "PIL",
-                "mediapipe.tasks.python",
-                "fastapi.staticfiles",
-                "os",
                 "collections",
-                "pygame",
-                "time",
-                "mediapipe.tasks",
-                "asyncio",
-                "fastapi.middleware.cors",
-                "io",
-                "fastapi",
                 "numpy",
+                "mutagen.mp3",
+                "time",
+                "mutagen.id3",
+                "PIL",
+                "os",
+                "cv2",
                 "uvicorn",
+                "fastapi.staticfiles",
+                "random",
+                "pygame",
+                "mediapipe.tasks",
+                "json",
+                "mediapipe.tasks.python",
+                "fastapi.middleware.cors",
+                "fastapi.responses",
+                "asyncio",
+                "base64",
+                "fastapi",
+                "io",
                 "mediapipe"
             ],
             "functions": [
@@ -47,33 +47,33 @@
         },
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
+                "mediapipe.tasks.python.vision",
+                "mediapipe.tasks.python"
             ],
             "functions": [],
             "classes": []
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "spotipy.oauth2",
-                "pycaw.pycaw",
-                "traceback",
-                "random",
-                "cv2",
-                "argparse",
-                "spotipy",
-                "mediapipe.tasks.python",
-                "os",
                 "collections",
-                "math",
+                "spotipy.oauth2",
+                "numpy",
                 "time",
+                "os",
+                "cv2",
+                "comtypes",
+                "spotipy",
+                "tkinter",
+                "argparse",
                 "ctypes",
+                "random",
+                "pycaw.pycaw",
                 "pygame",
                 "mediapipe.tasks",
+                "mediapipe.tasks.python",
+                "math",
+                "traceback",
                 "dotenv",
-                "tkinter",
-                "comtypes",
-                "numpy",
                 "mediapipe"
             ],
             "functions": [
@@ -135,9 +135,9 @@
         },
         "generate_tone.py": {
             "imports": [
+                "scipy.io.wavfile",
                 "os",
-                "numpy",
-                "scipy.io.wavfile"
+                "numpy"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -146,22 +146,22 @@
         },
         "app.py": {
             "imports": [
-                "os",
-                "collections",
-                "streamlit",
-                "time",
-                "io",
-                "base64",
-                "pygame",
-                "mutagen.id3",
-                "numpy",
-                "mutagen.mp3",
-                "random",
-                "PIL",
                 "mediapipe.tasks",
-                "cv2",
+                "collections",
+                "numpy",
                 "mediapipe.tasks.python",
-                "mediapipe"
+                "mutagen.mp3",
+                "time",
+                "base64",
+                "random",
+                "io",
+                "mutagen.id3",
+                "pygame",
+                "PIL",
+                "os",
+                "cv2",
+                "mediapipe",
+                "streamlit"
             ],
             "functions": [
                 "get_cover_art",
@@ -186,8 +186,8 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe.python.solutions",
-                "mediapipe"
+                "mediapipe",
+                "mediapipe.python.solutions"
             ],
             "functions": [],
             "classes": []

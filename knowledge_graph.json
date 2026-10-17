@@ -2,28 +2,28 @@
     "modules": {
         "server.py": {
             "imports": [
-                "os",
-                "asyncio",
-                "mediapipe",
-                "numpy",
-                "mediapipe.tasks",
-                "json",
-                "uvicorn",
-                "mutagen.id3",
-                "fastapi.staticfiles",
-                "PIL",
-                "io",
-                "fastapi",
-                "random",
                 "fastapi.responses",
-                "mediapipe.tasks.python",
-                "base64",
+                "os",
                 "fastapi.middleware.cors",
-                "cv2",
-                "time",
+                "numpy",
+                "base64",
+                "fastapi",
+                "mediapipe",
+                "io",
+                "asyncio",
                 "pygame",
                 "collections",
-                "mutagen.mp3"
+                "cv2",
+                "PIL",
+                "fastapi.staticfiles",
+                "mediapipe.tasks.python",
+                "random",
+                "mutagen.mp3",
+                "mutagen.id3",
+                "mediapipe.tasks",
+                "uvicorn",
+                "time",
+                "json"
             ],
             "functions": [
                 "init_hand_detector",
@@ -56,25 +56,25 @@
         "gesture_spotify_player.py": {
             "imports": [
                 "os",
-                "mediapipe",
-                "pycaw.pycaw",
                 "numpy",
-                "mediapipe.tasks",
-                "argparse",
-                "traceback",
-                "ctypes",
-                "random",
-                "tkinter",
-                "mediapipe.tasks.python",
                 "math",
-                "cv2",
-                "time",
-                "spotipy.oauth2",
-                "pygame",
-                "comtypes",
+                "pycaw.pycaw",
+                "mediapipe",
                 "dotenv",
                 "collections",
-                "spotipy"
+                "pygame",
+                "cv2",
+                "argparse",
+                "ctypes",
+                "traceback",
+                "mediapipe.tasks.python",
+                "spotipy.oauth2",
+                "random",
+                "tkinter",
+                "comtypes",
+                "spotipy",
+                "mediapipe.tasks",
+                "time"
             ],
             "functions": [
                 "now",
@@ -135,9 +135,9 @@
         },
         "generate_tone.py": {
             "imports": [
-                "numpy",
                 "scipy.io.wavfile",
-                "os"
+                "os",
+                "numpy"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -146,22 +146,22 @@
         },
         "app.py": {
             "imports": [
-                "PIL",
-                "streamlit",
+                "pygame",
+                "collections",
+                "cv2",
                 "os",
+                "streamlit",
+                "PIL",
+                "mutagen.mp3",
+                "mutagen.id3",
+                "random",
                 "mediapipe",
                 "io",
-                "mediapipe.tasks.python",
-                "base64",
-                "numpy",
-                "cv2",
-                "time",
                 "mediapipe.tasks",
-                "collections",
-                "mutagen.id3",
-                "mutagen.mp3",
-                "pygame",
-                "random"
+                "time",
+                "mediapipe.tasks.python",
+                "numpy",
+                "base64"
             ],
             "functions": [
                 "get_cover_art",
@@ -186,8 +186,8 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe.python.solutions",
-                "mediapipe"
+                "mediapipe",
+                "mediapipe.python.solutions"
             ],
             "functions": [],
             "classes": []

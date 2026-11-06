@@ -10,8 +10,8 @@
         "generate_tone.py": {
             "imports": [
                 "scipy.io.wavfile",
-                "numpy",
-                "os"
+                "os",
+                "numpy"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -20,22 +20,22 @@
         },
         "app.py": {
             "imports": [
+                "PIL",
                 "base64",
-                "mutagen.mp3",
-                "mediapipe.tasks",
-                "os",
-                "cv2",
-                "numpy",
-                "time",
-                "mutagen.id3",
-                "pygame",
-                "mediapipe.tasks.python",
-                "collections",
-                "mediapipe",
-                "random",
                 "streamlit",
+                "mutagen.mp3",
+                "random",
+                "cv2",
+                "mediapipe",
                 "io",
-                "PIL"
+                "mediapipe.tasks",
+                "time",
+                "mediapipe.tasks.python",
+                "mutagen.id3",
+                "collections",
+                "os",
+                "pygame",
+                "numpy"
             ],
             "functions": [
                 "get_cover_art",
@@ -53,28 +53,28 @@
         },
         "server.py": {
             "imports": [
-                "base64",
-                "os",
-                "cv2",
-                "fastapi.responses",
-                "time",
+                "PIL",
+                "fastapi.middleware.cors",
+                "io",
                 "mutagen.id3",
-                "mediapipe",
-                "uvicorn",
-                "json",
-                "numpy",
-                "collections",
-                "pygame",
-                "fastapi",
                 "mediapipe.tasks.python",
                 "random",
-                "fastapi.staticfiles",
-                "io",
-                "PIL",
                 "mutagen.mp3",
+                "cv2",
+                "fastapi",
+                "uvicorn",
+                "json",
+                "collections",
+                "base64",
+                "fastapi.staticfiles",
                 "mediapipe.tasks",
+                "os",
+                "numpy",
+                "fastapi.responses",
                 "asyncio",
-                "fastapi.middleware.cors"
+                "time",
+                "mediapipe",
+                "pygame"
             ],
             "functions": [
                 "init_hand_detector",
@@ -98,34 +98,34 @@
         },
         "debug_mp.py": {
             "imports": [
-                "mediapipe.python.solutions",
-                "mediapipe"
+                "mediapipe",
+                "mediapipe.python.solutions"
             ],
             "functions": [],
             "classes": []
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "ctypes",
-                "os",
-                "cv2",
-                "time",
-                "mediapipe",
                 "spotipy.oauth2",
-                "pycaw.pycaw",
-                "numpy",
-                "spotipy",
-                "collections",
-                "comtypes",
-                "pygame",
-                "dotenv",
                 "mediapipe.tasks.python",
-                "math",
+                "dotenv",
                 "random",
-                "traceback",
-                "tkinter",
+                "comtypes",
+                "cv2",
+                "collections",
+                "math",
                 "mediapipe.tasks",
-                "argparse"
+                "spotipy",
+                "os",
+                "numpy",
+                "pycaw.pycaw",
+                "argparse",
+                "tkinter",
+                "traceback",
+                "time",
+                "ctypes",
+                "mediapipe",
+                "pygame"
             ],
             "functions": [
                 "now",

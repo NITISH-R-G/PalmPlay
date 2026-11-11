@@ -9,9 +9,9 @@
         },
         "generate_tone.py": {
             "imports": [
+                "scipy.io.wavfile",
                 "os",
-                "numpy",
-                "scipy.io.wavfile"
+                "numpy"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -20,22 +20,22 @@
         },
         "app.py": {
             "imports": [
+                "mediapipe.tasks",
+                "time",
+                "mutagen.mp3",
+                "io",
+                "mutagen.id3",
                 "os",
                 "base64",
                 "streamlit",
-                "PIL",
-                "pygame",
-                "mutagen.id3",
-                "mediapipe.tasks",
-                "time",
-                "io",
-                "mediapipe",
-                "numpy",
-                "cv2",
-                "collections",
                 "mediapipe.tasks.python",
-                "mutagen.mp3",
-                "random"
+                "pygame",
+                "random",
+                "mediapipe",
+                "cv2",
+                "PIL",
+                "collections",
+                "numpy"
             ],
             "functions": [
                 "get_cover_art",
@@ -53,28 +53,28 @@
         },
         "server.py": {
             "imports": [
-                "uvicorn",
-                "fastapi.staticfiles",
-                "os",
-                "base64",
-                "PIL",
-                "pygame",
-                "random",
                 "json",
                 "io",
+                "fastapi.staticfiles",
+                "uvicorn",
+                "time",
+                "pygame",
+                "fastapi",
+                "numpy",
+                "mediapipe.tasks",
+                "base64",
+                "mediapipe.tasks.python",
+                "random",
+                "fastapi.responses",
+                "cv2",
+                "PIL",
+                "collections",
                 "mutagen.mp3",
                 "mutagen.id3",
                 "fastapi.middleware.cors",
-                "collections",
-                "fastapi.responses",
-                "mediapipe.tasks",
-                "time",
-                "fastapi",
-                "numpy",
-                "mediapipe",
-                "cv2",
-                "mediapipe.tasks.python",
-                "asyncio"
+                "os",
+                "asyncio",
+                "mediapipe"
             ],
             "functions": [
                 "init_hand_detector",
@@ -106,26 +106,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "os",
-                "pygame",
-                "math",
-                "spotipy.oauth2",
-                "random",
-                "dotenv",
-                "pycaw.pycaw",
-                "tkinter",
-                "collections",
                 "comtypes",
-                "spotipy",
-                "argparse",
-                "mediapipe.tasks",
+                "dotenv",
+                "spotipy.oauth2",
+                "tkinter",
                 "time",
-                "mediapipe",
-                "numpy",
-                "cv2",
-                "traceback",
+                "math",
+                "pygame",
+                "spotipy",
                 "ctypes",
-                "mediapipe.tasks.python"
+                "numpy",
+                "mediapipe.tasks",
+                "argparse",
+                "mediapipe.tasks.python",
+                "random",
+                "cv2",
+                "collections",
+                "os",
+                "mediapipe",
+                "pycaw.pycaw",
+                "traceback"
             ],
             "functions": [
                 "now",
@@ -186,8 +186,8 @@
         },
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
+                "mediapipe.tasks.python.vision",
+                "mediapipe.tasks.python"
             ],
             "functions": [],
             "classes": []

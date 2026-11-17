@@ -10,8 +10,8 @@
         "generate_tone.py": {
             "imports": [
                 "os",
-                "scipy.io.wavfile",
-                "numpy"
+                "numpy",
+                "scipy.io.wavfile"
             ],
             "functions": [
                 "generate_sine_wave"
@@ -20,22 +20,22 @@
         },
         "app.py": {
             "imports": [
-                "time",
-                "mutagen.mp3",
-                "mediapipe.tasks.python",
                 "collections",
-                "mutagen.id3",
-                "pygame",
+                "time",
                 "cv2",
-                "numpy",
-                "PIL",
+                "mutagen.mp3",
                 "random",
-                "os",
                 "mediapipe",
-                "io",
-                "mediapipe.tasks",
+                "pygame",
+                "mediapipe.tasks.python",
+                "numpy",
                 "streamlit",
-                "base64"
+                "mediapipe.tasks",
+                "os",
+                "base64",
+                "io",
+                "mutagen.id3",
+                "PIL"
             ],
             "functions": [
                 "get_cover_art",
@@ -53,28 +53,28 @@
         },
         "server.py": {
             "imports": [
-                "fastapi",
-                "json",
-                "uvicorn",
-                "asyncio",
-                "random",
-                "numpy",
-                "mutagen.mp3",
-                "mediapipe.tasks.python",
-                "pygame",
                 "cv2",
-                "PIL",
-                "io",
-                "time",
-                "mutagen.id3",
-                "mediapipe",
-                "mediapipe.tasks",
+                "mediapipe.tasks.python",
+                "json",
+                "os",
                 "fastapi.responses",
                 "collections",
+                "mediapipe",
+                "numpy",
+                "fastapi.staticfiles",
+                "mutagen.id3",
+                "PIL",
                 "fastapi.middleware.cors",
-                "os",
+                "time",
+                "asyncio",
+                "mutagen.mp3",
+                "random",
                 "base64",
-                "fastapi.staticfiles"
+                "io",
+                "fastapi",
+                "pygame",
+                "uvicorn",
+                "mediapipe.tasks"
             ],
             "functions": [
                 "init_hand_detector",
@@ -106,25 +106,25 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "comtypes",
-                "random",
-                "numpy",
-                "spotipy",
-                "argparse",
-                "mediapipe.tasks.python",
-                "traceback",
-                "pygame",
-                "cv2",
                 "spotipy.oauth2",
-                "time",
-                "math",
-                "dotenv",
-                "tkinter",
-                "mediapipe",
-                "mediapipe.tasks",
-                "ctypes",
-                "collections",
+                "cv2",
+                "mediapipe.tasks.python",
                 "os",
+                "ctypes",
+                "traceback",
+                "collections",
+                "mediapipe",
+                "numpy",
+                "dotenv",
+                "argparse",
+                "time",
+                "random",
+                "comtypes",
+                "pygame",
+                "tkinter",
+                "math",
+                "spotipy",
+                "mediapipe.tasks",
                 "pycaw.pycaw"
             ],
             "functions": [
@@ -186,8 +186,8 @@
         },
         "test_tasks_api.py": {
             "imports": [
-                "mediapipe.tasks.python.vision",
-                "mediapipe.tasks.python"
+                "mediapipe.tasks.python",
+                "mediapipe.tasks.python.vision"
             ],
             "functions": [],
             "classes": []

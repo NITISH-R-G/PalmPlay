@@ -1,41 +1,31 @@
 {
     "modules": {
-        "check_env.py": {
+        "test_tasks_api.py": {
             "imports": [
-                "importlib"
+                "mediapipe.tasks.python",
+                "mediapipe.tasks.python.vision"
             ],
             "functions": [],
-            "classes": []
-        },
-        "generate_tone.py": {
-            "imports": [
-                "numpy",
-                "scipy.io.wavfile",
-                "os"
-            ],
-            "functions": [
-                "generate_sine_wave"
-            ],
             "classes": []
         },
         "app.py": {
             "imports": [
                 "collections",
-                "mutagen.id3",
-                "mutagen.mp3",
-                "streamlit",
-                "time",
-                "PIL",
-                "random",
-                "pygame",
-                "numpy",
-                "base64",
-                "cv2",
-                "mediapipe",
-                "mediapipe.tasks.python",
-                "os",
                 "mediapipe.tasks",
-                "io"
+                "PIL",
+                "time",
+                "base64",
+                "mediapipe",
+                "mutagen.mp3",
+                "io",
+                "mediapipe.tasks.python",
+                "pygame",
+                "random",
+                "os",
+                "cv2",
+                "streamlit",
+                "mutagen.id3",
+                "numpy"
             ],
             "functions": [
                 "get_cover_art",
@@ -53,28 +43,28 @@
         },
         "server.py": {
             "imports": [
-                "mutagen.id3",
-                "mutagen.mp3",
-                "uvicorn",
-                "fastapi.middleware.cors",
-                "fastapi",
-                "numpy",
-                "cv2",
                 "asyncio",
                 "PIL",
-                "base64",
-                "os",
-                "collections",
-                "random",
-                "mediapipe",
-                "fastapi.responses",
-                "mediapipe.tasks.python",
-                "mediapipe.tasks",
                 "json",
-                "fastapi.staticfiles",
+                "uvicorn",
+                "numpy",
+                "mediapipe.tasks",
+                "mutagen.mp3",
+                "os",
+                "cv2",
                 "time",
+                "fastapi.middleware.cors",
+                "fastapi",
+                "collections",
+                "fastapi.responses",
+                "mutagen.id3",
+                "base64",
+                "mediapipe",
+                "io",
                 "pygame",
-                "io"
+                "mediapipe.tasks.python",
+                "random",
+                "fastapi.staticfiles"
             ],
             "functions": [
                 "init_hand_detector",
@@ -96,6 +86,24 @@
                 "GestureRecognizer"
             ]
         },
+        "check_env.py": {
+            "imports": [
+                "importlib"
+            ],
+            "functions": [],
+            "classes": []
+        },
+        "generate_tone.py": {
+            "imports": [
+                "scipy.io.wavfile",
+                "os",
+                "numpy"
+            ],
+            "functions": [
+                "generate_sine_wave"
+            ],
+            "classes": []
+        },
         "debug_mp.py": {
             "imports": [
                 "mediapipe.python.solutions",
@@ -106,26 +114,26 @@
         },
         "gesture_spotify_player.py": {
             "imports": [
-                "pycaw.pycaw",
-                "spotipy.oauth2",
-                "comtypes",
+                "traceback",
                 "numpy",
-                "cv2",
-                "spotipy",
+                "mediapipe.tasks",
                 "tkinter",
-                "argparse",
+                "spotipy.oauth2",
                 "os",
+                "ctypes",
+                "dotenv",
+                "math",
+                "comtypes",
+                "cv2",
+                "time",
                 "collections",
-                "random",
+                "pycaw.pycaw",
                 "mediapipe",
                 "mediapipe.tasks.python",
-                "math",
-                "mediapipe.tasks",
-                "traceback",
-                "time",
                 "pygame",
-                "ctypes",
-                "dotenv"
+                "spotipy",
+                "random",
+                "argparse"
             ],
             "functions": [
                 "now",
@@ -183,14 +191,6 @@
                 "SpotifyController",
                 "LocalController"
             ]
-        },
-        "test_tasks_api.py": {
-            "imports": [
-                "mediapipe.tasks.python",
-                "mediapipe.tasks.python.vision"
-            ],
-            "functions": [],
-            "classes": []
         }
     },
     "frameworks": [],
